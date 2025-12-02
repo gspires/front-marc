@@ -2,7 +2,7 @@ import { useAuthStore } from 'src/stores/auth'
 
 const requireAuth = (to, from, next) => {
   const auth = useAuthStore()
-  if (!auth.token) next('/login')
+  if (!auth.token) next('login')
   else next()
 }
 
@@ -24,12 +24,12 @@ const routes = [
             component: () => import('components/consulta/ListaConsulta.vue'),
           },
           {
-            path: '/marcar-consulta',
+            path: 'marcar-consulta',
             name: 'MarcarConsulta',
             component: () => import('components/consulta/MarcarConsulta.vue'),
           },
           {
-            path: '/update-consulta/:id',
+            path: 'update-consulta/:id',
             name: 'updateConsulta',
             component: () => import('components/consulta/updateConsulta.vue'),
           }
@@ -46,17 +46,17 @@ const routes = [
             component: () => import('components/pacientes/ListaPaciente.vue'),
           },
           {
-            path: '/cadastro',
+            path: 'cadastro',
             name: 'cadastroPaciente',
             component: () => import('components/pacientes/CadastroPaciente.vue'),
           },
           {
-            path: '/update-paciente/:id',
+            path: 'update-paciente/:id',
             name: 'updatePaciente',
             component: () => import('components/pacientes/UpdatePaciente.vue'),
           },
           {
-            path: '/historico-paciente/:id',
+            path: 'historico-paciente/:id',
             name: 'historicoPaciente',
             component: () => import('components/partials/historicoPaciente.vue'),
           }
@@ -74,24 +74,24 @@ const routes = [
             component: () => import('components/servicos/ListaServicos.vue')
           },
           {
-            path: '/update-servico/:id',
+            path: 'update-servico/:id',
             name: 'updateServicos',
             component: () => import('components/servicos/UpdateServicos.vue')
           },
           {
-            path: '/cadastro-servico',
+            path: 'cadastro-servico',
             name: 'addServicos',
             component: () => import('components/servicos/CadastroServicos.vue')
           },
           {
-            path: '/cadastro-relatorio/:id',
+            path: 'cadastro-relatorio/:id',
             name: 'addRelatorio',
             component: () => import('components/relatorio/createRelatorio.vue')
           }
         ]
       },
       {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'addRelatorio',
         component: () => import('components/dashboard/dashPrincipal.vue')
       },
@@ -106,12 +106,12 @@ const routes = [
             component: () => import('components/profissionais/ListaProfissionais.vue'),
           },
           {
-            path: '/update-profissional/:id',
+            path: 'update-profissional/:id',
             name: 'update-profissionais',
             component: () => import('components/profissionais/UpdateProfissional.vue'),
           },
           {
-            path: '/cadastro-profissional',
+            path: 'cadastro-profissional',
             name: 'cadastroProfissional',
             component: () => import('components/profissionais/CadastroProfissional.vue'),
           }
@@ -120,12 +120,12 @@ const routes = [
     ]
   },
   {
-    path: '/login',
+    path: 'login',
     name: 'login',
     component: () => import('src/pages/LoginPage.vue')
   },
   {
-    path: '/:catchAll(.*)*',
+    path: ':catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
   }
 ]
