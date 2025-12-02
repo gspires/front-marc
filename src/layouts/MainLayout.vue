@@ -1,44 +1,45 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf">
+    <!-- HEADER -->
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
+        <q-btn flat dense round icon="menu" @click="leftDrawerOpen = !leftDrawerOpen" />
         <q-toolbar-title>
-          Quasar App
+          Sistema de Fisioterapia
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat dense round icon="logout" @click="logout" class="q-ml-sm" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <!-- MENU LATERAL -->
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-item clickable v-ripple to="/consulta">
+          <q-item-section avatar><q-icon name="event" /></q-item-section>
+          <q-item-section>Agenda</q-item-section>
+        </q-item>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item clickable v-ripple to="/pacientes">
+          <q-item-section avatar><q-icon name="people" /></q-item-section>
+          <q-item-section>Pacientes</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/servicos">
+          <q-item-section avatar><q-icon name="healing" /></q-item-section>
+          <q-item-section>Serviços</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/profissionais">
+          <q-item-section avatar><q-icon name="work" /></q-item-section>
+          <q-item-section>Profissionais</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/dashboard">
+          <q-item-section avatar><q-icon name="analytics" /></q-item-section>
+          <q-item-section>Dashboard</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -47,56 +48,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { useAuthStore } from 'src/stores/auth'
+import { useRouter } from 'vue-router'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
+const router = useRouter()
 const leftDrawerOpen = ref(false)
+const auth = useAuthStore()
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+const logout = async () => {
+  try {
+    await auth.logout()
+    router.push('/login')
+  } catch (err) {
+    console.error(err)
+  }
 }
+
 </script>
