@@ -2,7 +2,7 @@ import { useAuthStore } from 'src/stores/auth'
 
 const requireAuth = (to, from, next) => {
   const auth = useAuthStore()
-  if (!auth.token) next('login')
+  if (!auth.token) next({ name: 'login' })
   else next()
 }
 
@@ -13,6 +13,7 @@ const routes = [
     beforeEnter: requireAuth,
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
+
       {
         path: 'consulta',
         name: 'consulta',
@@ -35,6 +36,7 @@ const routes = [
           }
         ]
       },
+
       {
         path: 'pacientes',
         name: 'pacientes',
@@ -60,9 +62,9 @@ const routes = [
             name: 'historicoPaciente',
             component: () => import('components/partials/historicoPaciente.vue'),
           }
-
         ]
       },
+
       {
         path: 'servicos',
         name: 'servicos',
@@ -90,11 +92,13 @@ const routes = [
           }
         ]
       },
+
       {
         path: 'dashboard',
-        name: 'addRelatorio',
+        name: 'dashboard',
         component: () => import('components/dashboard/dashPrincipal.vue')
       },
+
       {
         path: 'profissionais',
         name: 'profissionais',
@@ -119,13 +123,16 @@ const routes = [
       }
     ]
   },
+
+  // 🔥 ROTA CORRIGIDA
   {
-    path: 'login',
+    path: '/login',
     name: 'login',
     component: () => import('src/pages/LoginPage.vue')
   },
+
   {
-    path: ':catchAll(.*)*',
+    path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
   }
 ]
